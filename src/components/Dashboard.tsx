@@ -16,6 +16,8 @@ import {
   Settings
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { AppointmentCalendar } from "@/components/AppointmentCalendar";
+import { mockDoctors } from "@/data/mockData";
 
 interface DashboardProps {
   onLogout: () => void;
@@ -25,18 +27,6 @@ export function Dashboard({ onLogout }: DashboardProps) {
   const { toast } = useToast();
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const mockDoctors = [
-    { id: 1, name: "Dr. Ana García", specialty: "Cardiología", available: true },
-    { id: 2, name: "Dr. Carlos Rodríguez", specialty: "Neurología", available: false },
-    { id: 3, name: "Dr. María López", specialty: "Pediatría", available: true },
-    { id: 4, name: "Dr. Juan Martínez", specialty: "Dermatología", available: true },
-  ];
-
-  const mockAppointments = [
-    { id: 1, patient: "Juan Pérez", doctor: "Dr. Ana García", time: "09:00", specialty: "Cardiología" },
-    { id: 2, patient: "María Silva", doctor: "Dr. María López", time: "10:30", specialty: "Pediatría" },
-    { id: 3, patient: "Carlos Ruiz", doctor: "Dr. Juan Martínez", time: "14:00", specialty: "Dermatología" },
-  ];
 
   const handleAddAppointment = () => {
     toast({
@@ -154,46 +144,11 @@ export function Dashboard({ onLogout }: DashboardProps) {
           <TabsContent value="calendar" className="space-y-6">
             <Card className="bg-gradient-card shadow-soft border-0">
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="text-foreground">Calendario de Citas</CardTitle>
-                    <CardDescription>Gestiona las reservas y disponibilidad</CardDescription>
-                  </div>
-                  <Button onClick={handleAddAppointment} className="bg-gradient-primary">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Nueva Cita
-                  </Button>
-                </div>
+                <CardTitle className="text-foreground">Calendario de Citas</CardTitle>
+                <CardDescription>Gestiona las reservas y disponibilidad de doctores</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  <div className="lg:col-span-2">
-                    <div className="bg-background rounded-lg border p-6 min-h-[400px] flex items-center justify-center">
-                      <div className="text-center space-y-3">
-                        <Calendar className="w-16 h-16 text-muted-foreground mx-auto" />
-                        <p className="text-lg font-medium text-foreground">Calendario Interactivo</p>
-                        <p className="text-muted-foreground">Conecta con Supabase para funcionalidad completa</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <h3 className="font-semibold text-foreground">Citas de Hoy</h3>
-                    {mockAppointments.map((appointment) => (
-                      <div key={appointment.id} className="bg-background rounded-lg border p-4 space-y-2">
-                        <div className="flex items-center justify-between">
-                          <p className="font-medium text-foreground">{appointment.patient}</p>
-                          <Badge variant="outline" className="text-xs">
-                            {appointment.time}
-                          </Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground">{appointment.doctor}</p>
-                        <Badge variant="secondary" className="text-xs">
-                          {appointment.specialty}
-                        </Badge>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <AppointmentCalendar />
               </CardContent>
             </Card>
           </TabsContent>
